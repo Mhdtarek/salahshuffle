@@ -174,7 +174,7 @@
         <div bind:this={salahTimesContainer}>
           <h3>{selectedSalah}</h3>
           {#each salahSurahs as salahSurah}
-            <p>{salahSurah.name}</p>
+            <p>{salahSurah.surah}: {salahSurah.name} ({salahSurah.verses})</p>
           {/each}
         </div>
       {/if}
@@ -184,7 +184,7 @@
           {#each salahSurahs as salahSurah}
             <h3>{salahSurah.salah} {salahSurah.prayerTime}</h3>
             {#each salahSurah.surahs as surah}
-              <p>{surah.name}</p>
+              <p>{surah.surah}: {surah.name} ({surah.verses})</p>
             {/each}
           {/each}
         </div>
