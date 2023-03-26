@@ -74,32 +74,32 @@ This variable stores a reference to the `salahTimesContainer` element in the HTM
 
 ### **H1**
 
-### a header element displaying the app's name
+a header element displaying the app's name
 
 ### **P**
 
-### a paragraph element explaining what the app does
+a paragraph element explaining what the app does
 
 ### **Div.stage-1**
 
-### a div element containing a list of buttons representing Quran surahs that the user can select/deselect
+a div element containing a list of buttons representing Quran surahs that the user can select/deselect
 
 ### **Button**
 
-### a button element representing a Quran surah. When clicked, the surah is either added or removed from the user's list of known surahs
+a button element representing a Quran surah. When clicked, the surah is either added or removed from the user's list of known surahs
 
 ### **H3**
 
-### a header element displaying the user's list of known surahs
+a header element displaying the user's list of known surahs
 
 ### **Div.stage-2**
 
-### a div element containing a list of buttons representing the five daily prayers that the user can select from, Such as All, Fajr, Dhuhr, Asr And Isha
+a div element containing a list of buttons representing the five daily prayers that the user can select from, Such as All, Fajr, Dhuhr, Asr And Isha
 
-### **div.salah-times **
+**div.salah-times **
 
-### a div element displaying the prayer times and randomly selected surahs for the selected prayer time
+a div element displaying the prayer times and randomly selected surahs for the selected prayer time
 
 ### **Button.save-image**
 
-### a button element that allows the user to save a screenshot of the prayer times display as a PNG image
+a button element that allows the user to save a screenshot of the prayer times display as a PNG image
