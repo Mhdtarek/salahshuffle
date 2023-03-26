@@ -6,7 +6,7 @@ This is a Svelte website that allows you to shuffle through Quran Surahs and gen
 
 The following dependencies are required:
 
-- surahs.json file
+- surahs.json file (comes in src)
 - html2canvas package
 - adhan package
 
