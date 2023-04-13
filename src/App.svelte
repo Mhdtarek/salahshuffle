@@ -1,115 +1,38 @@
 <script>
   import surahs from "./surahs.json";
-  import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
   import { saveImage } from "./lib/imageGenerator.js";
+  import { getPrayerTimes } from "./lib/getPrayerTimes.js";
+  import Testing from "./testing.svelte";
+  import {
+    knownSurahs,
+    salahSurahs,
+    addSurah,
+    clearSurahs,
+    refreshSalahs,
+  } from "./lib/surah.js";
+  import { get } from "svelte/store";
 
-  let knownSurahs = JSON.parse(localStorage.getItem("knownSurahs")) || [];
-  let selectedSalah = "";
-  let salahSurahs = [];
+  let knownSurahsArr = [];
+  let salahSurahsArr = [];
+
+  knownSurahs.subscribe((value) => {
+    knownSurahsArr = value;
+  });
+  salahSurahs.subscribe((value) => {
+    salahSurahsArr = value;
+  });
+
   let stage = 1;
   let salahTimesContainer;
   let savingImage = false;
-  let globalPrayerTimes;
+  let globalPrayerTimes = getPrayerTimes();
 
-  function getPrayerTimes() {
-    const params = CalculationMethod.UmmAlQura();
-    const date = new Date();
+  function nextStage() {
+    refreshSalahs();
+    getPrayerTimes();
 
-    if ("geolocation" in navigator) {
-      // geolocation is available
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-
-          const coordinates = new Coordinates(latitude, longitude);
-          const prayerTimes = new PrayerTimes(coordinates, date, params);
-
-          globalPrayerTimes = prayerTimes;
-          console.log(prayerTimes);
-        },
-        (error) => {
-          // handle errors
-          console.error(error);
-        }
-      );
-    } else {
-      // geolocation is not available
-      console.log("Geolocation is not available");
-    }
+    stage = 2;
   }
-
-  function getPrayerTime(prayerName) {
-    const prayerTime = globalPrayerTimes[prayerName.toLowerCase()];
-    const formattedTime = `${prayerTime.getHours()}:${prayerTime.getMinutes()}`;
-    return `${formattedTime}`;
-  }
-
-  function addSurah(surahName, surahId, surahVerseAmount) {
-    const index = knownSurahs.findIndex((surah) => surah.surahId === surahId);
-    if (index === -1) {
-      knownSurahs = [
-        ...knownSurahs,
-        {
-          name: surahName,
-          surahId: surahId,
-          surahVerseAmount: surahVerseAmount,
-        },
-      ];
-    } else {
-      knownSurahs.splice(index, 1);
-    }
-    localStorage.setItem("knownSurahs", JSON.stringify(knownSurahs));
-  }
-
-  function clearSurahs() {
-    knownSurahs = [];
-    localStorage.removeItem("knownSurahs");
-  }
-
-  function selectSalah(salah) {
-    selectedSalah = salah;
-    if (selectedSalah === "All") {
-      salahSurahs = [];
-      ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].forEach((salah) => {
-        salahSurahs.push({
-          salah,
-          surahs: getRandomSurahs(),
-          prayerTime: getPrayerTime(salah),
-        });
-      });
-    } else {
-      salahSurahs = getRandomSurahs();
-    }
-  }
-
-  function selectAllSalahs() {
-    selectedSalah = "All";
-    selectSalah(selectedSalah);
-  }
-
-  function getRandomSurahs() {
-    const maxSurahs = 2;
-    const availableSurahs = knownSurahs.filter(
-      (knownSurah) => knownSurah.surahVerseAmount > maxSurahs
-    );
-    const randomSurahs = [];
-
-    for (let i = 0; i < maxSurahs; i++) {
-      if (availableSurahs.length > 0) {
-        const randomIndex = Math.floor(Math.random() * availableSurahs.length);
-        const randomSurah = availableSurahs[randomIndex];
-        availableSurahs.splice(randomIndex, 1);
-        randomSurahs.push(randomSurah);
-      } else {
-        const randomSurah = surahs[Math.floor(Math.random() * surahs.length)];
-        randomSurahs.push(randomSurah);
-      }
-    }
-    return randomSurahs;
-  }
-
-  getPrayerTimes();
 </script>
 
 <main>
@@ -119,57 +42,29 @@
       allows you to shuffle through Quran Surahs and generate random surahs for
       each of the five daily prayers.
     </p>
+    <Testing />
     <div class="stage-1">
-      {#each surahs as surah}
-        <button
-          class:selected={knownSurahs.some(
-            (known) => known.surahId === surah.surah
-          )}
-          on:click={() => addSurah(surah.name, surah.surah, surah.verses)}
-        >
-          {surah.name}
-        </button>
-      {/each}
-      <h3>Known Surahs</h3>
-
-      {#each knownSurahs as knownSurah}
-        <p>{knownSurah.name}</p>
-      {/each}
-
-      <div>
-        <button on:click={() => (stage = 2)}> Next </button>
-        <button on:click={clearSurahs}>Clear</button>
-      </div>
+      <button on:click={nextStage}> Next </button>
     </div>
   {/if}
   {#if stage == 2}
     <div class="stage-2">
-      <button on:click={selectAllSalahs}>All</button>
-      {#each ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as salah}
-        <button on:click={() => selectSalah(salah)}>{salah}</button>
-      {/each}
-      {#if selectedSalah === "Fajr" || selectedSalah === "Dhuhr" || selectedSalah === "Asr" || selectedSalah === "Maghrib" || selectedSalah === "Isha"}
-        <div bind:this={salahTimesContainer}>
-          <h3>{selectedSalah}</h3>
-          {#each salahSurahs as salahSurah}
-            <p>{salahSurah.name}</p>
-          {/each}
-        </div>
-      {/if}
+      <button on:click={refreshSalahs}>Refresh</button>
 
-      {#if selectedSalah == "All"}
-        <div bind:this={salahTimesContainer}>
-          {#each salahSurahs as salahSurah}
-            <h3>{salahSurah.salah} {salahSurah.prayerTime}</h3>
-            {#each salahSurah.surahs as surah}
-              <p>{surah.name}</p>
-            {/each}
+      <div bind:this={salahTimesContainer}>
+        {#each salahSurahsArr as salahSurah}
+          <h3>
+            {salahSurah.salah}
+            {salahSurah.prayerTime}
+          </h3>
+          {#each salahSurah.surahs as surah}
+            <p>{surah.label}</p>
           {/each}
-        </div>
-        <button on:click={() => saveImage(salahTimesContainer)}
-          >Save as Image</button
-        >
-      {/if}
+        {/each}
+      </div>
+      <button on:click={() => saveImage(salahTimesContainer)}
+        >Save as Image</button
+      >
       <div class="stage-1">
         <button on:click={() => (stage = 1)}> Back </button>
       </div>
@@ -187,7 +82,12 @@
 
   button {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #333;
+    background-color: linear-gradient(
+      117.98deg,
+      #2989d0 0%,
+      #426eed 47.86%,
+      #896cf1 108.11%
+    );
     color: #f2f2f2;
     border: none;
     padding: 0.5rem 1rem;

@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "adhan": "^4.4.3",
-    "html2canvas": "^1.4.1"
+    "html2canvas": "^1.4.1",
+    "svelte-select": "^5.6.0"
   }
 }
