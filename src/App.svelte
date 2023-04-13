@@ -36,37 +36,51 @@
 </script>
 
 <main>
-  <h1>Salah shuffler</h1>
   {#if stage == 1}
-    <p>
-      allows you to shuffle through Quran Surahs and generate random surahs for
-      each of the five daily prayers.
-    </p>
-    <Testing />
     <div class="stage-1">
-      <button on:click={nextStage}> Next </button>
+      <div class="top">
+        <h1>SALAH SHUFFLE</h1>
+        <p>
+          allows you to shuffle through Quran Surahs and generate random surahs
+          for each of the five daily prayers.
+        </p>
+      </div>
+      <div class="central">
+        <Testing />
+      </div>
+      <div class="bottom">
+        <button on:click={nextStage}> Shuffle</button>
+      </div>
     </div>
   {/if}
   {#if stage == 2}
     <div class="stage-2">
-      <button on:click={refreshSalahs}>Refresh</button>
-
-      <div bind:this={salahTimesContainer}>
-        {#each salahSurahsArr as salahSurah}
-          <h3>
-            {salahSurah.salah}
-            {salahSurah.prayerTime}
-          </h3>
-          {#each salahSurah.surahs as surah}
-            <p>{surah.label}</p>
-          {/each}
-        {/each}
+      <div class="top">
+        <button class="back-button" on:click={() => (stage = 1)}>Go Back</button
+        >
+        <div class="right-buttons">
+          <button class="refresh-button" on:click={refreshSalahs}
+            >Refresh</button
+          >
+          <button
+            class="save-button"
+            on:click={() => saveImage(salahTimesContainer)}
+            >Save as Image</button
+          >
+        </div>
       </div>
-      <button on:click={() => saveImage(salahTimesContainer)}
-        >Save as Image</button
-      >
-      <div class="stage-1">
-        <button on:click={() => (stage = 1)}> Back </button>
+      <div bind:this={salahTimesContainer} class="central">
+        {#each salahSurahsArr as salahSurah}
+          <div class="salahSurahCard">
+            <h3>
+              {salahSurah.salah}
+              {salahSurah.prayerTime}
+            </h3>
+            {#each salahSurah.surahs as surah}
+              <p>{surah.label}</p>
+            {/each}
+          </div>
+        {/each}
       </div>
     </div>
   {/if}
@@ -75,8 +89,7 @@
 <style>
   /* Basic styles */
   main {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    height: 98vh;
+    height: 100vh;
     padding: 10px;
   }
 
@@ -96,77 +109,101 @@
     transition: background-color 0.3s ease-in-out;
   }
 
-  button:hover {
-    background-color: #555;
+  .stage-1 .top {
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+    text-align: center;
   }
-
-  .selected {
-    background-color: #555;
+  .stage-1 .top h1,
+  .stage-1 .top p {
+    margin-top: 0;
   }
-
-  h1,
-  h3 {
-    font-weight: normal;
+  .stage-1 .top h1 {
+    font-size: 5vh;
+    font-style: bold;
   }
-
-  p {
-    margin: 0;
+  .stage-1 .central {
+    margin: 0 20vw;
   }
-
-  h1,
-  h3 {
-    font-weight: bold;
-  }
-
-  button {
+  .stage-1 .bottom button {
     cursor: pointer;
-    padding: 10px;
+    padding: 1.4vh 3vh;
     margin: 5px;
     border-radius: 5px;
     border: none;
-    background-color: #2ecc71;
-    color: #fff;
+    background-color: #ffffff;
+    color: #2989d0;
+    font-style: bold;
+    font-size: 2vh;
+  }
+  .stage-1 .bottom {
+    display: grid;
+    place-items: center;
+    margin-top: 10vh;
   }
 
-  button:hover {
-    background-color: #27ae60;
+  .stage-2 .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-
-  p {
-    margin: 5px;
-  }
-
-  /* Stage 1 styles */
-  .stage-1 button {
-    background-color: #3498db;
-  }
-
-  .stage-1 button:hover {
-    background-color: #2980b9;
-  }
-
-  .stage-1 .selected {
-    background-color: #e74c3c;
-  }
-
-  .stage-1 .selected:hover {
-    background-color: #c0392b;
-  }
-
-  .stage-1 h3 {
-    margin-top: 20px;
-  }
-
-  /* Stage 2 styles */
   .stage-2 button {
-    background-color: #9b59b6;
+    cursor: pointer;
+    padding: 1vh 2vh;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #2989d0;
+    font-style: bold;
+    font-size: 14px;
   }
 
-  .stage-2 button:hover {
-    background-color: #8e44ad;
+  .stage-2 .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .stage-2 h3 {
-    margin-top: 20px;
+  .back-button {
+    margin-right: auto;
+  }
+
+  .right-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .refresh-button,
+  .save-button {
+    margin-right: 1em;
+  }
+
+  .stage-2 .salahSurahCard {
+    text-align: center;
+    background-color: #ffffff;
+    color: #2989d0;
+    border-radius: 10px;
+    padding: 5px 0;
+    margin: 10px 0;
+  }
+  .stage-2 .salahSurahCard h3 {
+    color: #896cf1;
+    font-style: bold;
+    font-size: 20px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .stage-2 .central {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 1em;
+    }
+  }
+  @media only screen and (max-width: 768px) {
+    .stage-1 .central {
+      margin: 0;
+    }
   }
 </style>

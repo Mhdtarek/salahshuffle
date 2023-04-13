@@ -76,4 +76,7 @@
   .select {
     color: black;
   }
+  .multi-item {
+    display: none;
+  }
 </style>
