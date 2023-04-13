@@ -1,7 +1,7 @@
 <script>
   import surahs from "./surahs.json";
-  import html2canvas from "html2canvas";
   import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
+  import { saveImage } from "./lib/imageGenerator.js";
 
   let knownSurahs = JSON.parse(localStorage.getItem("knownSurahs")) || [];
   let selectedSalah = "";
@@ -88,28 +88,6 @@
     selectSalah(selectedSalah);
   }
 
-  async function saveSalahs() {
-    // create a canvas from the Salah times container with padding
-    const canvas = await html2canvas(salahTimesContainer, {
-      backgroundColor: "black",
-      x: -200,
-      y: -50, // add 50 pixels of padding at the top
-      height: salahTimesContainer.offsetHeight + 100, // add 100 pixels of padding (50 top + 50 bottom)
-      width: 500,
-    });
-
-    // convert the canvas to a data URL
-    const dataUrl = canvas.toDataURL("image/png");
-
-    // create a link element to download the image
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = "salah-times.png";
-
-    // trigger a click event on the link to download the image
-    link.click();
-  }
-
   function getRandomSurahs() {
     const maxSurahs = 2;
     const availableSurahs = knownSurahs.filter(
@@ -188,7 +166,9 @@
             {/each}
           {/each}
         </div>
-        <button on:click={saveSalahs}>Save as Image</button>
+        <button on:click={() => saveImage(salahTimesContainer)}
+          >Save as Image</button
+        >
       {/if}
       <div class="stage-1">
         <button on:click={() => (stage = 1)}> Back </button>
