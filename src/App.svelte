@@ -44,6 +44,9 @@
           allows you to shuffle through Quran Surahs and generate random surahs
           for each of the five daily prayers.
         </p>
+        <p>
+          IF THE SCROLL BAR IS NOT WORKING, RESET YOUR COOKIES AND LOCAL STORAGE
+        </p>
       </div>
       <div class="central">
         <Testing />
@@ -193,14 +196,12 @@
     font-style: bold;
     font-size: 20px;
   }
-
-  @media only screen and (min-width: 768px) {
-    .stage-2 .central {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 1em;
-    }
+  .stage-2 .central {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
   }
+
   @media only screen and (max-width: 768px) {
     .stage-1 .central {
       margin: 0;
