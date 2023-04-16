@@ -23,7 +23,19 @@
   });
 </script>
 
-<select id="language-picker" bind:value={selectLocale}>
-  <option value="ar" on:click={() => setLocale("ar")}>العربية</option>
-  <option value="en" on:click={() => setLocale("en")}>English </option>
-</select>
+<button value="ar" on:click={() => setLocale("ar")}>العربية</button>
+<button value="en" on:click={() => setLocale("en")}>English </button>
+
+<style>
+  button {
+    cursor: pointer;
+    padding: 0.7vh 1.5vh;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #2989d0;
+    font-style: bold;
+    font-size: 1.6vh;
+  }
+</style>
