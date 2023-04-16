@@ -1,7 +1,10 @@
 import {writable} from "svelte/store"
 import { getPrayerTime, getPrayerTimes } from "./getPrayerTimes";
 
-import surahs from "../surahs.json";
+import surahs from "../surahs.json"
+
+
+
 export let knownSurahs = writable(JSON.parse(localStorage.getItem("knownSurahs")) || [])
 export let salahSurahs = writable([]);
 
@@ -62,7 +65,7 @@ export function getRandomSurahs() {
 
   export function selectSalah() {
       salahSurahs.set([]);
-      ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"].forEach((salah) => {
+      ["fajr", "dhuhr", "asr", "maghrib", "isha"].forEach((salah) => {
          salahSurahs.update(surahs => [
             ...surahs,
             {

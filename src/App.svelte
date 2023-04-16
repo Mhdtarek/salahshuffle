@@ -3,6 +3,7 @@
   import { saveImage } from "./lib/imageGenerator.js";
   import { getPrayerTimes } from "./lib/getPrayerTimes.js";
   import Testing from "./testing.svelte";
+  import languagePicker from "./languagePicker.svelte";
   import {
     knownSurahs,
     salahSurahs,
@@ -10,7 +11,8 @@
     clearSurahs,
     refreshSalahs,
   } from "./lib/surah.js";
-  import { get } from "svelte/store";
+  import { _ } from "svelte-i18n";
+  import LanguagePicker from "./languagePicker.svelte";
 
   let knownSurahsArr = [];
   let salahSurahsArr = [];
@@ -35,37 +37,38 @@
   }
 </script>
 
-<main>
+<main dir={$_("direction")}>
   {#if stage == 1}
     <div class="stage-1">
       <div class="top">
-        <h1>SALAH SHUFFLE</h1>
+        <h1>{$_("main.name")}</h1>
         <p>
-          allows you to shuffle through Quran Surahs and generate random surahs
-          for each of the five daily prayers.
+          {$_("main.description")}
         </p>
+        <LanguagePicker />
       </div>
       <div class="central">
         <Testing />
       </div>
       <div class="bottom">
-        <button on:click={nextStage}> Shuffle</button>
+        <button on:click={nextStage}>{$_("main.shuffle")}</button>
       </div>
     </div>
   {/if}
   {#if stage == 2}
     <div class="stage-2">
       <div class="top">
-        <button class="back-button" on:click={() => (stage = 1)}>Go Back</button
+        <button class="back-button" on:click={() => (stage = 1)}
+          >{$_("main.goBack")}</button
         >
         <div class="right-buttons">
           <button class="refresh-button" on:click={refreshSalahs}
-            >Refresh</button
+            >{$_("main.refresh")}</button
           >
           <button
             class="save-button"
             on:click={() => saveImage(salahTimesContainer)}
-            >Save as Image</button
+            >{$_("main.saveImage")}</button
           >
         </div>
       </div>
@@ -73,11 +76,10 @@
         {#each salahSurahsArr as salahSurah}
           <div class="salahSurahCard">
             <h3>
-              {salahSurah.salah}
-              {salahSurah.prayerTime}
+              {$_(`prayers.${salahSurah.salah}`)}
             </h3>
             {#each salahSurah.surahs as surah}
-              <p>{surah.label}</p>
+              <p>{$_(`surahs.${surah.label}`)}</p>
             {/each}
           </div>
         {/each}

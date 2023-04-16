@@ -1,8 +1,10 @@
 <script>
   import { onMount } from "svelte";
-  import Select from "svelte-select";
+  import Select from "./lib/svelte-select";
   import surahs from "./surahs.json";
   import { knownSurahs } from "./lib/surah";
+  import { _ } from "svelte-i18n";
+
   let value = [];
   let checked = [];
   let isChecked = {};
@@ -62,7 +64,7 @@
           id={item.value}
           bind:checked={isChecked[item.value]}
         />
-        {item.label} ({item.verses} verses)
+        {$_(`surahs.${item.label}`)} ({item.verses})
       </label>
     </div>
   </Select>
@@ -76,7 +78,7 @@
   .select {
     color: black;
   }
-  .multi-item {
+  .value-container {
     display: none;
   }
 </style>
