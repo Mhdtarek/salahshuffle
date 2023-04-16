@@ -53,7 +53,7 @@
     multiple={true}
     filterSelectedItems={false}
     closeListOnChange={false}
-    placeholder="Select all known Surahs"
+    placeholder={$_("main.selectPlaceholder")}
     on:select={handleChange}
     on:clear={handleChange}
   >

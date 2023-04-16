@@ -5,7 +5,8 @@
     "goBack": "Go back",
     "saveImage": "Save Image",
     "refresh": "Refresh",
-    "shuffle": "shuffle"
+    "shuffle": "shuffle",
+    "selectPlaceholder": "Select all known Surahs"
   },
   "prayers": {
     "fajr": "fajr",
