@@ -23,8 +23,10 @@
   });
 </script>
 
-<button value="ar" on:click={() => setLocale("ar")}>العربية</button>
-<button value="en" on:click={() => setLocale("en")}>English </button>
+<main dir="ltr">
+  <button value="ar" on:click={() => setLocale("ar")}>العربية</button>
+  <button value="en" on:click={() => setLocale("en")}>English </button>
+</main>
 
 <style>
   button {
