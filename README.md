@@ -1,6 +1,6 @@
-# **Salah Shuffler**
+# **Salah Shuffle**
 
-This is a Svelte website that allows you to shuffle through Quran Surahs and generate random surahs for each of the five daily prayers.
+A Svelte website that allows you to shuffle through Quran Surahs and generate random surahs for each of the five daily Islamic prayers.
 
 ## **Dependencies**
 
