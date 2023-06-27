@@ -24,13 +24,12 @@ The following dependencies are required:
 - Option to select all five prayers at once.
 - Download a PNG image of the generated Salah times.
 
-## **Code**
-
-The main JavaScript file for the application is src/App.svelte. The file imports the surahs.json, html2canvas, and adhan packages to generate prayer times.
-The addSurah, clearSurahs, and getRandomSurahs functions handle adding/removing known Surahs, clearing the list of known Surahs, and generating random Surahs for each prayer, respectively.
-The getPrayerTimes and getPrayerTime functions use the adhan package to calculate prayer times and format them for display.
-The saveSalahs function generates a PNG image of the generated Salah times and allows the user to download it.
-Read more at [ The Docs](https://github.com/Mhdtarek/salahshuffle/blob/master/DOCUMENTATION.md)
+## **Running** 
+1. `git clone https://github.com/Mhdtarek/salahshuffle.git`
+2. `cd salahshuffle`
+3. `npm install`
+4. `npm run dev`
+5. *optional* `code .` for Visual Studio Code or `nvim .` for Neo Vi
 
 ## **Credits**
 
